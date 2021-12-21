@@ -1,4 +1,6 @@
 using System;
+using Unity.Collections;
+using UnityEngine.UI;
 
 namespace ARTutorial.ShootGame
 {
@@ -13,12 +15,19 @@ namespace ARTutorial.ShootGame
 
         [SerializeField] private PlaceOnPlane _placeOnPlane;
         private SpouterController spouterController;
-        [SerializeField] private GameObject StartGameUI;
+        [SerializeField] private GameObject StartButton;
+        [SerializeField] private float score = 0;
+        [SerializeField] private Text ScoreUI;
+        [SerializeField] private Text TimeUI;
+
+        private bool isStartGame = false;
+        [SerializeField] private float GameTime = 180;
+        private float tempTime;
 
         private void Awake()
         {
             instance = this;
-            StartGameUI.SetActive(false);
+            StartButton.SetActive(false);
         }
 
         public void startGame()
@@ -26,11 +35,34 @@ namespace ARTutorial.ShootGame
             _placeOnPlane.enabled = false;
             setStartGameUI(false);
             spouterController.StartPout();
+            score = 0;
+            setScoreText();
+            tempTime = GameTime;
+            isStartGame = true;
         }
 
         public void GameOver()
         {
             _placeOnPlane.enabled = true;
+            isStartGame = false;
+            setStartGameUI(true);
+            spouterController.StopPout();
+        }
+
+        private void Update()
+        {
+            if (!isStartGame)
+            {
+                return;
+            }
+
+            tempTime -= Time.deltaTime;
+            tempTime = Mathf.Clamp(tempTime, 0, GameTime);
+            TimeUI.text = tempTime.ToString("F1");
+            if (tempTime <= 0)
+            {
+                GameOver();
+            }
         }
 
         public void OnSpouterEnable(SpouterController controller)
@@ -41,7 +73,18 @@ namespace ARTutorial.ShootGame
 
         void setStartGameUI(bool acive)
         {
-            StartGameUI.SetActive(acive);
+            StartButton.SetActive(acive);
+        }
+
+        public void AddScore(float _score)
+        {
+            score += _score;
+            setScoreText();
+        }
+
+        void setScoreText()
+        {
+            ScoreUI.text = $"分數： {score}";
         }
     }
 }

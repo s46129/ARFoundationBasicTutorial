@@ -7,7 +7,7 @@ using UnityEngine;
 public class TargetController : MonoBehaviour
 {
     private SpouterController spouterController;
-    private float lifeTime = 1f;
+    [SerializeField] private float lifeTime = 1f;
     private bool isInitialed = false;
 
     public void Init(SpouterController spouter, float LifeTime = 0.5f)
@@ -36,7 +36,7 @@ public class TargetController : MonoBehaviour
             isInitialed = false;
             if (spouterController != null)
             {
-                spouterController.ResponseTarget(this);
+                spouterController.Recycle(this);
             }
             else
             {

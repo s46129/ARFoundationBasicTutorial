@@ -6,8 +6,8 @@ namespace ARTutorial.Utility
 
     public class ObjectPool : MonoBehaviour
     {
-        private List<GameObject> onHierarchyObjects = new List<GameObject>();
-        private List<GameObject> onPoolObjects = new List<GameObject>();
+        [SerializeField] private List<Transform> onHierarchyObjects = new List<Transform>();
+        [SerializeField] private List<Transform> onPoolObjects = new List<Transform>();
         private GameObject prefab;
 
         public void Initial(GameObject Prefab)
@@ -15,18 +15,16 @@ namespace ARTutorial.Utility
             prefab = Prefab;
         }
 
-        public GameObject GetObject()
+        public Transform Spawn()
         {
-            GameObject get;
+            Transform get;
             if (onPoolObjects.Count > 0)
             {
                 get = onPoolObjects[0];
-                Debug.Log($"onPoolObjects.Count {onPoolObjects.Count}");
             }
             else
             {
-                get = Instantiate(prefab);
-                Debug.Log("Instantiate");
+                get = Instantiate(prefab).transform;
             }
 
             onHierarchyObjects.Add(get);
@@ -39,7 +37,7 @@ namespace ARTutorial.Utility
             return get;
         }
 
-        public void Response(GameObject target)
+        public void Recycle(Transform target)
         {
             onPoolObjects.Add(target);
             onHierarchyObjects.Remove(target);

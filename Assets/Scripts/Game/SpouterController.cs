@@ -22,6 +22,8 @@ namespace ARTutorial.ShootGame
         /// </summary>
         [SerializeField] private Transform ShootPosition;
 
+        [SerializeField] private float ShootForce = 1;
+
         private bool isStartShoot = false;
 
         /// <summary>
@@ -63,25 +65,31 @@ namespace ARTutorial.ShootGame
             targetPool.Initial(targetPrefab);
         }
 
+        public void StopPout()
+        {
+            isStartShoot = false;
+        }
+
         void Shoot()
         {
-            GameObject get = targetPool.GetObject();
-            get.transform.position = ShootPosition.position;
+            Transform get = targetPool.Spawn();
+            get.position = ShootPosition.position;
+            get.gameObject.SetActive(true);
             get.GetComponent<TargetController>().Init(this, 3);
-            get.GetComponent<Rigidbody>().AddForce(ShootPosition.forward);
+            get.GetComponent<Rigidbody>().AddForce(ShootPosition.forward * ShootForce);
         }
 
         public void OnHited(TargetController target)
         {
-            //TODO: 加分數
-            ResponseTarget(target);
+            GameManager.instance.AddScore(100);
+            Recycle(target);
         }
 
-        public void ResponseTarget(TargetController target)
+        public void Recycle(TargetController target)
         {
-            targetPool.Response(target.gameObject);
-            target.GetComponent<Rigidbody>().velocity=Vector3.zero;
             target.gameObject.SetActive(false);
+            targetPool.Recycle(target.transform);
+            target.GetComponent<Rigidbody>().velocity = Vector3.zero;
         }
     }
 }

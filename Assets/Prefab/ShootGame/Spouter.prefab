@@ -119,13 +119,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2603731574060397657}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0.977, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5559925444166498245}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!1 &5988808158597516030
 GameObject:
   m_ObjectHideFlags: 0
@@ -240,7 +240,8 @@ MonoBehaviour:
   targetPool: {fileID: 6836171661548821033}
   targetPrefab: {fileID: 6794660746613896734, guid: e7d0bdf7a59644a409c4904a98c89816, type: 3}
   ShootPosition: {fileID: 3511297662810956504}
-  Interval: 0.5
+  ShootForce: 3
+  Interval: 2
 --- !u!114 &6836171661548821033
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -253,3 +254,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45190aa3e46c94a2eb0dc128aedaa1bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onHierarchyObjects: []
+  onPoolObjects: []
