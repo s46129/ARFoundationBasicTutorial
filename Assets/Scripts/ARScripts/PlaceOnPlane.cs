@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
 
@@ -54,10 +55,17 @@ namespace UnityEngine.XR.ARFoundation.Samples
             if (!TryGetTouchPosition(out Vector2 touchPosition))
                 return;
 
+#if UNITY_EDITOR
+            if (EventSystem.current.IsPointerOverGameObject() == false)
+                return;
+#else
+            if (Input.touchCount > 0 &&
+                EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId) == false)
+                return;
+#endif
+
             if (m_RaycastManager.Raycast(touchPosition, s_Hits, TrackableType.PlaneWithinPolygon))
             {
-                // Raycast hits are sorted by distance, so the first one
-                // will be the closest hit.
                 var hitPose = s_Hits[0].pose;
 
                 if (spawnedObject == null)
