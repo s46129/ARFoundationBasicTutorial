@@ -1,11 +1,7 @@
-using System;
-using Unity.Collections;
 using UnityEngine.UI;
 
 namespace ARTutorial.ShootGame
 {
-    using System.Collections;
-    using System.Collections.Generic;
     using UnityEngine;
     using UnityEngine.XR.ARFoundation.Samples;
 

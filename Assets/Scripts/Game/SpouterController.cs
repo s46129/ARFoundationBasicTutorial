@@ -1,4 +1,3 @@
-using System;
 using ARTutorial.Utility;
 
 namespace ARTutorial.ShootGame

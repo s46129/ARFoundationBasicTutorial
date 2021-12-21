@@ -1,46 +1,45 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using ARTutorial.ShootGame;
-using UnityEngine;
-
-public class TargetController : MonoBehaviour
+namespace ARTutorial.ShootGame
 {
-    private SpouterController spouterController;
-    [SerializeField] private float lifeTime = 1f;
-    private bool isInitialed = false;
+    using UnityEngine;
 
-    public void Init(SpouterController spouter, float LifeTime = 0.5f)
+    public class TargetController : MonoBehaviour
     {
-        spouterController = spouter;
-        lifeTime = LifeTime;
-        isInitialed = true;
-    }
+        private SpouterController spouterController;
+        [SerializeField] private float lifeTime = 1f;
+        private bool isInitialed = false;
 
-    public void OnHited()
-    {
-        spouterController.OnHited(this);
-        isInitialed = false;
-    }
-
-    private void Update()
-    {
-        if (!isInitialed)
+        public void Init(SpouterController spouter, float LifeTime = 0.5f)
         {
-            return;
+            spouterController = spouter;
+            lifeTime = LifeTime;
+            isInitialed = true;
         }
 
-        lifeTime -= Time.deltaTime;
-        if (lifeTime <= 0)
+        public void OnHited()
         {
+            spouterController.OnHited(this);
             isInitialed = false;
-            if (spouterController != null)
+        }
+
+        private void Update()
+        {
+            if (!isInitialed)
             {
-                spouterController.Recycle(this);
+                return;
             }
-            else
+
+            lifeTime -= Time.deltaTime;
+            if (lifeTime <= 0)
             {
-                Destroy(gameObject);
+                isInitialed = false;
+                if (spouterController != null)
+                {
+                    spouterController.Recycle(this);
+                }
+                else
+                {
+                    Destroy(gameObject);
+                }
             }
         }
     }
